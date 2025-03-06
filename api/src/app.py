@@ -8,7 +8,6 @@ from typing_extensions import TypedDict
 
 from services.database import JSONDatabase
 
-
 class Quote(TypedDict):
     name: str
     message: str
@@ -31,7 +30,6 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
 
 
 app = FastAPI(lifespan=lifespan)
-
 
 @app.post("/quote")
 def post_message(name: str = Form(), message: str = Form()) -> RedirectResponse:

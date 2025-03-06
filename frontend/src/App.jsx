@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 
 function App() {
@@ -10,13 +10,13 @@ function App() {
     try {
       const response = await fetch(`/api/quotes?timeframe=${timeframe}`);
       if (!response.ok) {
-        console.error("Error getting quotes");
+        console.error("Error fetching quotes:", response.statusText);
         return;
       }
       const data = await response.json();
       setQuotes(data);
     } catch (error) {
-      console.error("Error getting quotes:", error);
+      console.error("Error fetching quotes:", error);
     }
   };
 
@@ -46,11 +46,28 @@ function App() {
       </form>
 
       <h2>Previous Quotes</h2>
-      {/* TODO: Display the actual quotes from the database */}
+      <div>
+        <label htmlFor="timeframe-select">Filter by timeframe:</label>
+        <select
+          id="timeframe-select"
+          value={timeframe}
+          onChange={handleTimeframeChange}
+        >
+          <option value="all_time">All Time</option>
+          <option value="year">Last Year</option>
+          <option value="month">Last Month</option>
+          <option value="week">Last Week</option>
+        </select>
+      </div>
+
       <div className="messages">
-        <p>Peter Anteater</p>
-        <p>Zot Zot Zot!</p>
-        <p>Every day</p>
+        {quotes.map((quote, index) => (
+          <div key={index}>
+            <p>{quote.name}</p>
+            <p>{quote.message}</p>
+            <p>{quote.time}</p>
+          </div>
+        ))}
       </div>
     </div>
   );
