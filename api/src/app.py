@@ -48,3 +48,7 @@ def post_message(name: str = Form(), message: str = Form()) -> RedirectResponse:
 
 
 # TODO: add another API route with a query parameter to retrieve quotes based on max age
+@app.get("/quotes")
+def get_quotes(timeframe: str) -> list[Quote]:
+    quotes = database["quotes"]
+    return quotes
