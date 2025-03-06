@@ -7,6 +7,7 @@ function App() {
   const [timeframe, setTimeframe] = useState("all_time");
   const [quotes, setQuotes] = useState([]);
 
+  // Fetch quotes from the backend
   const fetchQuotes = async () => {
     try {
       const response = await fetch(
@@ -17,14 +18,13 @@ function App() {
         return;
       }
       const data = await response.json();
-      console.log("Fetched quotes:", data);
       setQuotes(data);
     } catch (error) {
       console.error("Error fetching quotes:", error);
     }
   };
 
-  // Update quotes whenever the selected timeframe changes
+  // Re-fetch quotes whenever the timeframe changes
   useEffect(() => {
     fetchQuotes();
   }, [timeframe]);
@@ -34,14 +34,50 @@ function App() {
     setTimeframe(e.target.value);
   };
 
+  // Custom submit handler for the form
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent full page refresh
+    const formData = new FormData(e.target);
+    try {
+      // Use redirect: "manual" to intercept the redirect response
+      const response = await fetch("http://127.0.0.1:8000/quote", {
+        method: "POST",
+        body: formData,
+        redirect: "manual",
+      });
+      console.log(
+        "Response status:",
+        response.status,
+        "redirected:",
+        response.redirected
+      );
+
+      // If we get a 303 (or a status of 0 which sometimes happens in cross-origin redirects) or the response indicates a redirect, treat it as success.
+      if (
+        response.status === 303 ||
+        response.redirected ||
+        response.status === 0
+      ) {
+        fetchQuotes();
+        e.target.reset();
+      } else {
+        console.error("Error submitting quote:", response.status);
+      }
+    } catch (error) {
+      console.error("Caught error during submission:", error);
+      // In case of error, still try to re-fetch quotes
+      fetchQuotes();
+      e.target.reset();
+    }
+  };
+
   return (
     <div className="App">
       {/* TODO: include an icon for the quote book */}
       <h1>Hack at UCI Tech Deliverable</h1>
 
       <h2>Submit a quote</h2>
-      {/* TODO: implement custom form submission logic to not refresh the page */}
-      <form action="/api/quote" method="post">
+      <form onSubmit={handleSubmit}>
         <label htmlFor="input-name">Name</label>
         <input type="text" name="name" id="input-name" required />
         <label htmlFor="input-message">Quote</label>
@@ -63,9 +99,6 @@ function App() {
           <option value="week">Last Week</option>
         </select>
       </div>
-
-      {/* Button to manually fetch quotes for debugging */}
-      <button onClick={fetchQuotes}>Show Quotes</button>
 
       <div className="messages">
         {quotes.length === 0 && <p>No quotes found</p>}
