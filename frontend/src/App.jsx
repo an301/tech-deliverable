@@ -1,31 +1,35 @@
 import { useState, useEffect } from "react";
+import Quote from "./Quote";
 import "./App.css";
 
 function App() {
-  //state for timeframe and fetched quotes
+  // State for timeframe and fetched quotes
   const [timeframe, setTimeframe] = useState("all_time");
   const [quotes, setQuotes] = useState([]);
 
   const fetchQuotes = async () => {
     try {
-      const response = await fetch(`/api/quotes?timeframe=${timeframe}`);
+      const response = await fetch(
+        `http://127.0.0.1:8000/quotes?timeframe=${timeframe}`
+      );
       if (!response.ok) {
         console.error("Error fetching quotes:", response.statusText);
         return;
       }
       const data = await response.json();
+      console.log("Fetched quotes:", data);
       setQuotes(data);
     } catch (error) {
       console.error("Error fetching quotes:", error);
     }
   };
 
-  // update quotes when timeframe changes
+  // Update quotes whenever the selected timeframe changes
   useEffect(() => {
     fetchQuotes();
   }, [timeframe]);
 
-  //handler for selection menu
+  // Handler for the select menu
   const handleTimeframeChange = (e) => {
     setTimeframe(e.target.value);
   };
@@ -60,13 +64,18 @@ function App() {
         </select>
       </div>
 
+      {/* Button to manually fetch quotes for debugging */}
+      <button onClick={fetchQuotes}>Show Quotes</button>
+
       <div className="messages">
+        {quotes.length === 0 && <p>No quotes found</p>}
         {quotes.map((quote, index) => (
-          <div key={index}>
-            <p>{quote.name}</p>
-            <p>{quote.message}</p>
-            <p>{quote.time}</p>
-          </div>
+          <Quote
+            key={index}
+            name={quote.name}
+            message={quote.message}
+            time={quote.time}
+          />
         ))}
       </div>
     </div>
