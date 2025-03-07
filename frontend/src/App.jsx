@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Form, Button, Container, Card } from "react-bootstrap";
+import { Form, Button, Container } from "react-bootstrap";
 import QuoteCard from "./QuoteCard";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -87,20 +87,20 @@ function App() {
 
       <h2 className="mt-5 mb-3">Previous Quotes</h2>
       <div>
-        <label htmlFor="timeframe-select" className="me-2">
-          Filter by timeframe:
-        </label>
-        <select
-          id="timeframe-select"
-          value={timeframe}
-          onChange={handleTimeframeChange}
-          className="mb-4"
-        >
-          <option value="all_time">All Time</option>
-          <option value="year">Last Year</option>
-          <option value="month">Last Month</option>
-          <option value="week">Last Week</option>
-        </select>
+        <Form.Group className="d-flex align-items-center mb-4">
+          <Form.Label className="me-2 mb-0">Filter by timeframe:</Form.Label>
+          <Form.Select
+            aria-label="Timeframe select"
+            value={timeframe}
+            onChange={handleTimeframeChange}
+            style={{ width: "150px" }} // Adjust the width as needed
+          >
+            <option value="all_time">All Time</option>
+            <option value="year">Last Year</option>
+            <option value="month">Last Month</option>
+            <option value="week">Last Week</option>
+          </Form.Select>
+        </Form.Group>
       </div>
 
       <div className="messages">
