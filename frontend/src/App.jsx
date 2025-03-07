@@ -64,89 +64,91 @@ function App() {
   return (
     <Container
       fluid
-      className="py-4"
+      className="py-4 px-4"
       style={{
-        /* A nice purple-to-blue gradient */
         background: "linear-gradient(135deg, #4a90e2 0%, #5fc3e4 100%)",
         color: "#fff",
-        minHeight: "100vh", // fill the viewport
+        minHeight: "100vh",
       }}
     >
-      {/* Header Section */}
-      <div className="d-flex align-items-center mb-4">
-        <img
-          src={quoteLogo}
-          alt="Quotebook Logo"
-          style={{ width: "60px", marginRight: "10px" }}
-        />
-        <h1>Hack at UCI Tech Deliverable</h1>
-      </div>
-
-      {/* Form Section */}
-      {/* Form Section */}
-      <h2 className="mb-3">Submit a quote</h2>
-      <Form onSubmit={handleSubmit}>
-        <div className="d-flex mb-3">
-          <Form.Control
-            type="text"
-            name="name"
-            placeholder="Name"
-            required
-            style={{
-              backgroundColor: "#fff",
-              color: "#000",
-            }}
-            className="me-3" // adds right margin
+      <div className="content-wrapper">
+        {/* Header Section */}
+        <div className="d-flex align-items-center mb-4">
+          <img
+            src={quoteLogo}
+            alt="Quotebook Logo"
+            style={{ width: "60px", marginRight: "10px" }}
           />
-          <Form.Control
-            type="text"
-            name="message"
-            placeholder="Quote"
-            required
-            style={{
-              backgroundColor: "#fff",
-              color: "#000",
-            }}
-          />
+          <h1>Hack at UCI Tech Deliverable</h1>
         </div>
-        <Button variant="light" type="submit">
-          Submit
-        </Button>
-      </Form>
 
-      {/* Filter Section */}
-      <h2 className="mt-5 mb-3">Previous Quotes</h2>
-      <div>
-        <Form.Group className="d-flex align-items-center mb-4">
-          <Form.Label className="me-2 mb-0">Filter by timeframe:</Form.Label>
-          <Form.Select
-            aria-label="Timeframe select"
-            value={timeframe}
-            onChange={handleTimeframeChange}
-            style={{ width: "150px", color: "#000" }}
-          >
-            <option value="all_time">All Time</option>
-            <option value="year">Last Year</option>
-            <option value="month">Last Month</option>
-            <option value="week">Last Week</option>
-          </Form.Select>
-        </Form.Group>
-      </div>
-
-      {/* Quotes Display */}
-      <div className="messages">
-        {quotes.length === 0 && <p>No quotes found</p>}
-        {quotes
-          .slice()
-          .reverse()
-          .map((quote, index) => (
-            <QuoteCard
-              key={index}
-              name={quote.name}
-              message={quote.message}
-              time={quote.time}
+        {/* Form Section */}
+        <h2 className="mb-3">Submit a quote</h2>
+        <Form onSubmit={handleSubmit}>
+          <div className="d-flex mb-3">
+            <Form.Control
+              type="text"
+              name="name"
+              placeholder="Name"
+              required
+              style={{
+                backgroundColor: "#fff",
+                color: "#000",
+              }}
+              className="me-3"
             />
-          ))}
+            <Form.Control
+              type="text"
+              name="message"
+              placeholder="Quote"
+              required
+              style={{
+                backgroundColor: "#fff",
+                color: "#000",
+              }}
+            />
+          </div>
+          <Button variant="light" type="submit">
+            Submit
+          </Button>
+        </Form>
+
+        {/* Filter Section */}
+        <h2 className="mt-5 mb-3">Previous Quotes</h2>
+        <div>
+          <Form.Group className="d-flex align-items-center mb-4">
+            <Form.Label className="me-2 mb-0" style={{ fontSize: "1.25rem" }}>
+              Filter by timeframe:
+            </Form.Label>
+            <Form.Select
+              aria-label="Timeframe select"
+              value={timeframe}
+              onChange={handleTimeframeChange}
+              style={{ width: "150px", color: "#000" }}
+            >
+              <option value="all_time">All Time</option>
+              <option value="year">Last Year</option>
+              <option value="month">Last Month</option>
+              <option value="week">Last Week</option>
+            </Form.Select>
+          </Form.Group>
+        </div>
+
+        {/* Quotes Display */}
+        <div className="messages">
+          {quotes.length === 0 && <p>No quotes found</p>}
+          {quotes
+            .slice()
+            .reverse()
+            .map((quote, index) => (
+              <QuoteCard
+                key={index}
+                name={quote.name}
+                message={quote.message}
+                time={quote.time}
+              />
+            ))}
+        </div>
       </div>
     </Container>
   );

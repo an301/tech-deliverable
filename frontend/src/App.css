@@ -1,3 +1,9 @@
 body {
   font-family: "Open Sans", sans-serif;
 }
+
+.content-wrapper {
+  max-width: 800px; /* Adjust width */
+  margin: 0 auto; /* Center container horizontally */
+  padding: 0 1rem; /* horizontal padding */
+}
