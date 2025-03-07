@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
+import { Form, Button, Container, Card } from "react-bootstrap";
 import Quote from "./Quote";
 import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   // State for timeframe and fetched quotes
   const [timeframe, setTimeframe] = useState("all_time");
   const [quotes, setQuotes] = useState([]);
 
-  // Fetch quotes from the backend
   const fetchQuotes = async () => {
     try {
       const response = await fetch(
@@ -24,35 +25,24 @@ function App() {
     }
   };
 
-  // Re-fetch quotes whenever the timeframe changes
   useEffect(() => {
     fetchQuotes();
   }, [timeframe]);
 
-  // Handler for the select menu
   const handleTimeframeChange = (e) => {
     setTimeframe(e.target.value);
   };
 
-  // Custom submit handler for the form
+  // Custom submit handler remains the same as before
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent full page refresh
     const formData = new FormData(e.target);
     try {
-      // Use redirect: "manual" to intercept the redirect response
       const response = await fetch("http://127.0.0.1:8000/quote", {
         method: "POST",
         body: formData,
         redirect: "manual",
       });
-      console.log(
-        "Response status:",
-        response.status,
-        "redirected:",
-        response.redirected
-      );
-
-      // If we get a 303 (or a status of 0 which sometimes happens in cross-origin redirects) or the response indicates a redirect, treat it as success.
       if (
         response.status === 303 ||
         response.redirected ||
@@ -61,37 +51,44 @@ function App() {
         fetchQuotes();
         e.target.reset();
       } else {
-        console.error("Error submitting quote:", response.status);
+        console.error("Error submitting quote:", response.statusText);
       }
     } catch (error) {
-      console.error("Caught error during submission:", error);
-      // In case of error, still try to re-fetch quotes
+      console.error("Error submitting quote:", error);
       fetchQuotes();
       e.target.reset();
     }
   };
 
   return (
-    <div className="App">
-      {/* TODO: include an icon for the quote book */}
-      <h1>Hack at UCI Tech Deliverable</h1>
+    <Container className="py-4">
+      <h1 className="mb-4">Hack at UCI Tech Deliverable</h1>
 
-      <h2>Submit a quote</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="input-name">Name</label>
-        <input type="text" name="name" id="input-name" required />
-        <label htmlFor="input-message">Quote</label>
-        <input type="text" name="message" id="input-message" required />
-        <button type="submit">Submit</button>
-      </form>
+      <h2 className="mb-3">Submit a quote</h2>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group className="mb-3" controlId="inputName">
+          <Form.Label>Name</Form.Label>
+          <Form.Control type="text" name="name" required />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="inputMessage">
+          <Form.Label>Quote</Form.Label>
+          <Form.Control type="text" name="message" required />
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          Submit
+        </Button>
+      </Form>
 
-      <h2>Previous Quotes</h2>
+      <h2 className="mt-5 mb-3">Previous Quotes</h2>
       <div>
-        <label htmlFor="timeframe-select">Filter by timeframe:</label>
+        <label htmlFor="timeframe-select" className="me-2">
+          Filter by timeframe:
+        </label>
         <select
           id="timeframe-select"
           value={timeframe}
           onChange={handleTimeframeChange}
+          className="mb-4"
         >
           <option value="all_time">All Time</option>
           <option value="year">Last Year</option>
@@ -102,16 +99,19 @@ function App() {
 
       <div className="messages">
         {quotes.length === 0 && <p>No quotes found</p>}
-        {quotes.map((quote, index) => (
-          <Quote
-            key={index}
-            name={quote.name}
-            message={quote.message}
-            time={quote.time}
-          />
-        ))}
+        {quotes
+          .slice()
+          .reverse()
+          .map((quote, index) => (
+            <Quote
+              key={index}
+              name={quote.name}
+              message={quote.message}
+              time={quote.time}
+            />
+          ))}
       </div>
-    </div>
+    </Container>
   );
 }
 
