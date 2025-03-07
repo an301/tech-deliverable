@@ -3,6 +3,7 @@ import { Form, Button, Container, Card } from "react-bootstrap";
 import QuoteCard from "./QuoteCard";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import quoteLogo from "../images/quotebook.png";
 
 function App() {
   // State for timeframe and fetched quotes
@@ -62,6 +63,11 @@ function App() {
 
   return (
     <Container className="py-4">
+      <img
+        src={quoteLogo}
+        alt="Quotebook Logo"
+        style={{ width: "60px", marginRight: "10px" }}
+      />
       <h1 className="mb-4">Hack at UCI Tech Deliverable</h1>
 
       <h2 className="mb-3">Submit a quote</h2>
