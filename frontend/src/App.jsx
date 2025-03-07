@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Form, Button, Container, Card } from "react-bootstrap";
-import Quote from "./Quote";
+import QuoteCard from "./QuoteCard";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -103,7 +103,7 @@ function App() {
           .slice()
           .reverse()
           .map((quote, index) => (
-            <Quote
+            <QuoteCard
               key={index}
               name={quote.name}
               message={quote.message}
