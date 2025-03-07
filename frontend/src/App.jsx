@@ -83,33 +83,32 @@ function App() {
       </div>
 
       {/* Form Section */}
+      {/* Form Section */}
       <h2 className="mb-3">Submit a quote</h2>
       <Form onSubmit={handleSubmit}>
-        <Form.Group className="mb-3" controlId="inputName">
-          <Form.Label>Name</Form.Label>
-          {/* White text overall, but let's keep inputs legible by giving them a light background */}
+        <div className="d-flex mb-3">
           <Form.Control
             type="text"
             name="name"
+            placeholder="Name"
             required
             style={{
               backgroundColor: "#fff",
               color: "#000",
             }}
+            className="me-3" // adds right margin
           />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="inputMessage">
-          <Form.Label>Quote</Form.Label>
           <Form.Control
             type="text"
             name="message"
+            placeholder="Quote"
             required
             style={{
               backgroundColor: "#fff",
               color: "#000",
             }}
           />
-        </Form.Group>
+        </div>
         <Button variant="light" type="submit">
           Submit
         </Button>
