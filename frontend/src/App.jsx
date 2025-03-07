@@ -62,29 +62,60 @@ function App() {
   };
 
   return (
-    <Container className="py-4">
-      <img
-        src={quoteLogo}
-        alt="Quotebook Logo"
-        style={{ width: "60px", marginRight: "10px" }}
-      />
-      <h1 className="mb-4">Hack at UCI Tech Deliverable</h1>
+    <Container
+      fluid
+      className="py-4"
+      style={{
+        /* A nice purple-to-blue gradient */
+        background: "linear-gradient(135deg, #4a90e2 0%, #5fc3e4 100%)",
+        color: "#fff",
+        minHeight: "100vh", // fill the viewport
+      }}
+    >
+      {/* Header Section */}
+      <div className="d-flex align-items-center mb-4">
+        <img
+          src={quoteLogo}
+          alt="Quotebook Logo"
+          style={{ width: "60px", marginRight: "10px" }}
+        />
+        <h1>Hack at UCI Tech Deliverable</h1>
+      </div>
 
+      {/* Form Section */}
       <h2 className="mb-3">Submit a quote</h2>
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="inputName">
           <Form.Label>Name</Form.Label>
-          <Form.Control type="text" name="name" required />
+          {/* White text overall, but let's keep inputs legible by giving them a light background */}
+          <Form.Control
+            type="text"
+            name="name"
+            required
+            style={{
+              backgroundColor: "#fff",
+              color: "#000",
+            }}
+          />
         </Form.Group>
         <Form.Group className="mb-3" controlId="inputMessage">
           <Form.Label>Quote</Form.Label>
-          <Form.Control type="text" name="message" required />
+          <Form.Control
+            type="text"
+            name="message"
+            required
+            style={{
+              backgroundColor: "#fff",
+              color: "#000",
+            }}
+          />
         </Form.Group>
-        <Button variant="primary" type="submit">
+        <Button variant="light" type="submit">
           Submit
         </Button>
       </Form>
 
+      {/* Filter Section */}
       <h2 className="mt-5 mb-3">Previous Quotes</h2>
       <div>
         <Form.Group className="d-flex align-items-center mb-4">
@@ -93,7 +124,7 @@ function App() {
             aria-label="Timeframe select"
             value={timeframe}
             onChange={handleTimeframeChange}
-            style={{ width: "150px" }} // Adjust the width as needed
+            style={{ width: "150px", color: "#000" }}
           >
             <option value="all_time">All Time</option>
             <option value="year">Last Year</option>
@@ -103,6 +134,7 @@ function App() {
         </Form.Group>
       </div>
 
+      {/* Quotes Display */}
       <div className="messages">
         {quotes.length === 0 && <p>No quotes found</p>}
         {quotes
