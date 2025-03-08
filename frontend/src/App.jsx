@@ -137,17 +137,14 @@ function App() {
         {/* Quotes Display */}
         <div className="messages">
           {quotes.length === 0 && <p>No quotes found</p>}
-          {quotes
-            .slice()
-            .reverse()
-            .map((quote, index) => (
-              <QuoteCard
-                key={index}
-                name={quote.name}
-                message={quote.message}
-                time={quote.time}
-              />
-            ))}
+          {quotes.map((quote, index) => (
+            <QuoteCard
+              key={index}
+              name={quote.name}
+              message={quote.message}
+              time={quote.time}
+            />
+          ))}
         </div>
       </div>
     </Container>
