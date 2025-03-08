@@ -72,13 +72,13 @@ function App() {
       }}
     >
       <div className="content-wrapper">
+        <img
+          src={quoteLogo}
+          alt="Quotebook Logo"
+          style={{ width: "60px", marginRight: "10px" }}
+        />
         {/* Header Section */}
         <div className="d-flex align-items-center mb-4">
-          <img
-            src={quoteLogo}
-            alt="Quotebook Logo"
-            style={{ width: "60px", marginRight: "10px" }}
-          />
           <h1>Hack at UCI Tech Deliverable</h1>
         </div>
 
